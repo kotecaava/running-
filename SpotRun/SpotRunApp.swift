@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 @main
 struct SpotRunApp: App {

@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct SpotifyConnectStepView: View {
     @EnvironmentObject private var model: AppViewModel

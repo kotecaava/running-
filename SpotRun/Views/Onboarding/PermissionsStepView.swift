@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct PermissionsStepView: View {
     @EnvironmentObject private var model: AppViewModel

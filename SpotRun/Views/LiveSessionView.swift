@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct LiveSessionView: View {
     @EnvironmentObject private var model: AppViewModel
@@ -102,10 +101,10 @@ struct LiveSessionView: View {
         VStack(spacing: 12) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(model.liveMetrics.playbackState == .playing ? "In Zone — music up" : "Adjust to power your playlist")
+                    Text(statusHeadline())
                         .font(.headline)
                         .foregroundStyle(.white)
-                    Text("Stay within the zone to keep the beat going")
+                    Text(statusSubheadline())
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.6))
                 }
@@ -122,6 +121,41 @@ struct LiveSessionView: View {
             .background(Color.white.opacity(0.08))
             .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+    }
+
+    private func statusHeadline() -> String {
+        if !model.liveMetrics.isPaceRequirementMet && model.userSettings.minimumPaceEnabled {
+            return "Pick up the pace"
+        }
+        switch model.liveMetrics.zoneState {
+        case .inZone:
+            return "In Zone — music up"
+        case .outOfZone:
+            return "Find your zone"
+        case .unknown:
+            return "Waiting for heart rate"
+        }
+    }
+
+    private func statusSubheadline() -> String {
+        if !model.liveMetrics.isPaceRequirementMet && model.userSettings.minimumPaceEnabled {
+            return "Hit at least \(String(format: "%.1f", model.userSettings.minimumPaceKmh)) km/h to keep playing"
+        }
+        switch model.liveMetrics.zoneState {
+        case .inZone:
+            return "Stay steady to keep the beat going"
+        case .outOfZone:
+            return "Ease up or push to return between \(zoneRange().lowerBound)-\(zoneRange().upperBound) bpm"
+        case .unknown:
+            return "Make sure your heart-rate sensor is connected"
+        }
+    }
+
+    private func zoneRange() -> ClosedRange<Int> {
+        guard let zone = HRZone.defaultZones.first(where: { $0.id == model.userSettings.selectedZoneId }) else {
+            return 0...0
+        }
+        return zone.bpmRange(maxHR: model.userSettings.maxHeartRate)
     }
 
     private var sessionControls: some View {

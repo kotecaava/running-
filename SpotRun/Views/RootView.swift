@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct RootView: View {
     @EnvironmentObject private var model: AppViewModel

@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct MaxHRZoneStepView: View {
     @EnvironmentObject private var model: AppViewModel

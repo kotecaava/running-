@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct SessionSummaryView: View {
     @EnvironmentObject private var model: AppViewModel

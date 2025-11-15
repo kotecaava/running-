@@ -1,5 +1,4 @@
 import SwiftUI
-import SpotRunCore
 
 struct OnboardingContainer: View {
     @EnvironmentObject private var model: AppViewModel
